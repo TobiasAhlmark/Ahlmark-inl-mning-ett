@@ -1,8 +1,12 @@
+import clickLooseSound from "@/assets/sounds/clickLooseSound.mp3";
+import clickWinSound from "@/assets/sounds/clickWinSound.mp3";
+import drawSound from "@/assets/sounds/drawSound.mp3";
 import { computerChoiceAtom, displayChoiceAtom, resultAtom, userChoiceAtom } from "@/atoms/gameAtoms";
 import { playerNameAtom } from "@/atoms/historyAtoms";
 import { dbServiceSingleGame } from "@/services/dbService";
 import { useAtom } from "jotai";
-import { useDecideWinner } from "./decideWinner";
+import { useDecideWinner } from "./useDecideWinner";
+import { useSound } from "./useSound";
 
 
 function GameChoices () {
@@ -21,6 +25,9 @@ export function useRockPaper(){
     const [playerName] = useAtom(playerNameAtom);
 
     const { decideWinner } = useDecideWinner();
+    const playClickLoose = useSound(clickLooseSound);
+    const playClickWin = useSound(clickWinSound);
+    const playDrawSound = useSound(drawSound)
     
     async function PlayRound (userC: string) {
 
@@ -28,14 +35,23 @@ export function useRockPaper(){
 
         const interval = setInterval(() => {
             setDisplayChoice(GameChoices());
-        }, 150);
+        }, 100);
         
-        setTimeout(async () => {clearInterval(interval);
+        setTimeout(async () => {
+            clearInterval(interval);
             
             const finalChoice = GameChoices();
 
                 setDisplayChoice(finalChoice);
                  const matchResult = decideWinner(userC, finalChoice);
+
+                if(matchResult === "LOOSE")
+                    playClickLoose();
+                if(matchResult === "WIN")
+                    playClickWin();
+                if(matchResult === "🖖: Oavgjort")
+                    playDrawSound();
+
                 SetResult(matchResult);
 
                 dbServiceSingleGame(playerName, userC, finalChoice, matchResult)
@@ -46,7 +62,7 @@ export function useRockPaper(){
             setComputerChoice(null);
             setDisplayChoice(null);
             SetResult(null);
-                }, 7000);
+                }, 6000);
     }   
     return {userChoice, computerChoice, result, displayChoice, PlayRound}
 }
