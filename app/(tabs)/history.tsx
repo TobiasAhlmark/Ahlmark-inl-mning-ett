@@ -1,49 +1,33 @@
-import { historyAtom } from "@/atoms/historyAtoms";
 import { Text, View } from "@/components/Themed";
-import { supabase } from "@/lib/supaBase";
-import { useAtom } from "jotai";
-import { useEffect } from "react";
+import { UseFetchHistory } from "@/hooks/useFetchHistory";
+import { useIsFocused } from "@react-navigation/native";
 import { FlatList, StyleSheet } from "react-native";
 
-export default async function HistoryScreen() {
-  const [result, setResult] = useAtom(historyAtom);
-
-  useEffect(() => {
-    const fetchResults = async () => {
-      const { data, error } = await supabase
-        .from("results")
-        .select(
-          "id, player_name, user_choice, computer_choice, result, created_at"
-        )
-        .order("created_at", { ascending: false })
-        .limit(25);
-
-      if (error) {
-        console.error("❌ Fetch error:", error.message);
-      } else {
-        setResult(data);
-      }
-    };
-
-    fetchResults();
-  }, [setResult]);
+export default function HistoryScreen() {
+  const isFocused = useIsFocused();
+  const result = UseFetchHistory(isFocused);
 
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Text style={styles.title}>Historik</Text>
-        <Text style={styles.title}>Historik</Text>
-        <Text style={styles.title}>Historik</Text>
-        <Text style={styles.title}>Historik</Text>
+      <View style={styles.header}>
+        <Text style={[styles.title, { flex: 1 }]}>Player</Text>
+        <Text style={[styles.title, { flex: 1 }]}>Player Choice</Text>
+        <Text style={[styles.title, { flex: 1 }]}>Computer Choice</Text>
+        <Text style={[styles.title, { flex: 1, textAlign: "right" }]}>
+          Winner
+        </Text>
       </View>
       <FlatList
+        style={{ flex: 1, marginTop: 10 }}
         data={result}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <Text>
-            {item.player_name}. Ditt val: {item.user_choice} Datorns val:{" "}
-            {item.computer_choice} Resultat: {item.result}
-          </Text>
+          <View style={styles.row}>
+            <Text style={styles.cell}>{item.player_name}</Text>
+            <Text style={styles.cell}>{item.user_choice}</Text>
+            <Text style={styles.cell}>{item.computer_choice}</Text>
+            <Text style={[styles.cell, {}]}>{item.result}</Text>
+          </View>
         )}
       ></FlatList>
     </View>
@@ -53,16 +37,29 @@ export default async function HistoryScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    width: "100%",
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
+
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 5,
+    borderBottomWidth: 1,
+    borderColor: "grey",
+  },
+  row: {
+    flexDirection: "row",
+    padding: 8,
+    borderBottomWidth: 0.5,
+    borderColor: "lightgrey",
+    width: "100%",
+  },
+  cell: {
+    textAlign: "left",
+    width: "25%",
   },
 });
