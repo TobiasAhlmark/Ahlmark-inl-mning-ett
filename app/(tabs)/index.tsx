@@ -1,9 +1,15 @@
+import { computerScoreAtom, playerScoreAtom } from "@/atoms/gameAtoms";
+import { playerNameAtom } from "@/atoms/historyAtoms";
 import { Text, View } from "@/components/Themed";
-import { UseRockPaper } from "@/hooks/usePaperRock";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import { useRockPaper } from "@/hooks/usePaperRock";
+import { useAtom } from "jotai";
+import { Image, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 
 export default function GameScreen() {
-  const { userChoice, displayChoice, result, PlayRound } = UseRockPaper();
+  const { userChoice, displayChoice, result, PlayRound } = useRockPaper();
+  const [playerName, setPlayerName] = useAtom(playerNameAtom);
+  const [playerscore] = useAtom(playerScoreAtom);
+  const [computerScore] = useAtom(computerScoreAtom);
 
   const images = {
     Rock: require("../../assets/images/rock.png"),
@@ -17,34 +23,48 @@ export default function GameScreen() {
     Påse: require("../../assets/images/bag.png"),
   };
 
-  const choiceEmojis = {
-    Sten: "✊",
-    Sax: "✌️",
-    Påse: "🖐️",
-  };
+  if (userChoice === null)
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Sten - Sax - Påse</Text>
+        <Text style={styles.title}>
+          player - {playerscore} - cpu - {computerScore}
+        </Text>
+        <TextInput
+          style={styles.input}
+          placeholder={"Ang Namn"}
+          placeholderTextColor="black"
+          value={playerName}
+          onChangeText={setPlayerName}
+        />
+        <View style={styles.pressAbleView}>
+          <TouchableOpacity onPress={() => PlayRound("Sten")}>
+            <Image source={images.Rock} style={styles.images} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => PlayRound("Sax")}>
+            <Image source={images.Scissor} style={styles.images} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => PlayRound("Påse")}>
+            <Image source={images.Bag} style={styles.images} />
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Spelet</Text>
-      <View style={styles.pressAbleView}>
-        <TouchableOpacity onPress={() => PlayRound("Sten")}>
-          <Image source={images.Rock} style={styles.images} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => PlayRound("Sax")}>
-          <Image source={images.Scissor} style={styles.images} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => PlayRound("Påse")}>
-          <Image source={images.Bag} style={styles.images} />
-        </TouchableOpacity>
-      </View>
-      <Text style={styles.info}>Du valde: </Text>
+    <View
+      style={[styles.container, { backgroundColor: renderResultColor(result) }]}
+    >
+      <Text style={styles.title}>Sten - Sax - Påse</Text>
+      <View style={styles.pressAbleView}></View>
+      <Text style={styles.info}>{playerName} valde: </Text>
 
       <Image
         source={imagesSvenska[userChoice as keyof typeof imagesSvenska]}
         style={styles.images}
       />
 
-      <Text style={styles.info}>Datorn visar: </Text>
+      <Text style={styles.info}>Datorn väljer: </Text>
 
       <Image
         source={imagesSvenska[displayChoice as keyof typeof displayChoice]}
@@ -53,6 +73,12 @@ export default function GameScreen() {
       <Text>Resultat: {result}</Text>
     </View>
   );
+
+  function renderResultColor(result: string | null) {
+    if (result === "LOOSE") return "red";
+    if (result === "WIN") return "green";
+    if (result === "🖖: Oavgjort") return "orange";
+  }
 }
 
 const styles = StyleSheet.create({
@@ -93,5 +119,12 @@ const styles = StyleSheet.create({
   },
   pressAbleView: {
     flexDirection: "row",
+  },
+  input: {
+    backgroundColor: "lightgrey",
+    borderWidth: 1,
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 15,
   },
 });
