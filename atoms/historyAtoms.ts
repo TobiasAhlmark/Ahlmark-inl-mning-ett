@@ -9,7 +9,16 @@ export interface ResultRow{
   created_at: string; 
 };
 
+export interface ResultBestOfThreeRow{
+  id: number;
+  player_score: number;
+  computer_score: number;
+  winner: string;
+  player_name: string;
+}
+
 export const historyAtom = atom<ResultRow[]>([]);
+export const historyAtomBestOfThree = atom<ResultBestOfThreeRow[]>([]);
 export const playerNameAtom = atom<string>("");
 
 
