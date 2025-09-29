@@ -36,3 +36,26 @@ din applikation, vilka komponenter du har använt och kort beskriva vad dom anv�
 10. Appen ska prata med ett Web-API för att hämta data.
 11. Appen ska förberedas för lansering till en Appstore (Deadline samma dag som kursen
     slutar)
+
+# Rock Paper Scissors Game 🎮✊✋✌️
+
+Ett spel byggt i React Native med Expo där spelaren möter datorn i sten–sax–påse.  
+Spelet har stöd för ljud, vibrationer, historikvisning och poängräkning.
+
+---
+
+## 📖 Beskrivning
+
+- Spelaren kan ange sitt namn och spela mot datorn.
+- Varje omgång visar datorns val, spelarens val och resultatet.
+- Poängen räknas upp och sparas i en historik.
+- Ljud och vibrationer används för feedback.
+- Gränssnittet är gjort med React Native-komponenter och Expo-komponenter för extra funktionalitet och styling.
+
+---
+
+## 🛠️ Hur man kör projektet
+
+1. Klona repot eller ladda ner koden
+2. Kör `npm install` för att installera alla dependencies
+3. Starta appen med: npm run start
