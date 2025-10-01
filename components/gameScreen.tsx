@@ -10,15 +10,15 @@ import { useAtom } from "jotai";
 import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
 
 const images = {
-  Rock: require("../../assets/images/rock.png"),
-  Scissor: require("../../assets/images/scissor.png"),
-  Bag: require("../../assets/images/bag.png"),
+  Rock: require("../assets/images/rock.png"),
+  Scissor: require("../assets/images/scissor.png"),
+  Bag: require("../assets/images/bag.png"),
 };
 
 const imagesSvenska = {
-  Sten: require("../../assets/images/rock.png"),
-  Sax: require("../../assets/images/scissor.png"),
-  Påse: require("../../assets/images/bag.png"),
+  Sten: require("../assets/images/rock.png"),
+  Sax: require("../assets/images/scissor.png"),
+  Påse: require("../assets/images/bag.png"),
 };
 
 export default function GameScreen() {

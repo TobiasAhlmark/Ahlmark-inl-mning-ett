@@ -1,15 +1,15 @@
 import { computerScoreAtom, playerScoreAtom } from "@/atoms/gameAtoms";
 import { playerNameAtom } from "@/atoms/historyAtoms";
+import GameScreen from "@/components/gameScreen";
 import { Text, View } from "@/components/Themed";
 import { useRockPaper } from "@/hooks/usePaperRock";
 import { useSound } from "@/hooks/useSound";
 import { Image } from "expo-image";
-import { LinearGradient } from "expo-linear-gradient";
 import { useAtom } from "jotai";
-import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native";
 import clickSound from "../../assets/sounds/clickSound.mp3";
 
-export default function GameScreen() {
+export default function GameHomeScreen() {
   const { userChoice, displayChoice, result, PlayRound } = useRockPaper();
   const [playerName, setPlayerName] = useAtom(playerNameAtom);
   const [playerScore] = useAtom(playerScoreAtom);
@@ -28,65 +28,7 @@ export default function GameScreen() {
     Påse: require("../../assets/images/bag.png"),
   };
 
-  if (userChoice === null)
-    return (
-      <LinearGradient
-        colors={["#636364ff", "#6c6e70ff"]} // 🔵 blå gradient
-        style={styles.container}
-      >
-        <View style={styles.container}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              width: "100%",
-            }}
-          >
-            <View style={{ flex: 1, margin: 10, alignItems: "center" }}>
-              <Text style={styles.title}>Computer</Text>
-              <Text style={styles.title}>{computerScore}</Text>
-            </View>
-            <View style={{ flex: 1, margin: 10, alignItems: "center" }}>
-              <Text style={styles.title}>Player</Text>
-              <Text style={styles.title}>{playerScore}</Text>
-            </View>
-          </View>
-          <TextInput
-            style={styles.input}
-            placeholder={"Ang Namn"}
-            placeholderTextColor="black"
-            value={playerName}
-            onChangeText={setPlayerName}
-          />
-          <View style={styles.pressAbleView}>
-            <TouchableOpacity
-              onPress={() => {
-                playClick();
-                PlayRound("Sten");
-              }}
-            >
-              <Image source={images.Rock} style={styles.images} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                playClick();
-                PlayRound("Sax");
-              }}
-            >
-              <Image source={images.Scissor} style={styles.images} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                playClick();
-                PlayRound("Påse");
-              }}
-            >
-              <Image source={images.Bag} style={styles.images} />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </LinearGradient>
-    );
+  if (userChoice === null) return <GameScreen />;
 
   return (
     <View
