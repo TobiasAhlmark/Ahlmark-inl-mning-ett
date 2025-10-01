@@ -26,7 +26,9 @@ export default function BestOfThreeHistoryScreen() {
             <Text style={styles.cell}>{item.player_name}</Text>
             <Text style={styles.cell}>{item.player_score}</Text>
             <Text style={styles.cell}>{item.computer_score}</Text>
-            <Text style={[styles.cell, {}]}>{item.winner}</Text>
+            <Text style={[styles.cell, { textAlign: "right" }]}>
+              {item.winner}
+            </Text>
           </View>
         )}
       ></FlatList>
@@ -38,9 +40,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
+    padding: 2,
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
   },
 

@@ -26,7 +26,9 @@ export default function HistoryScreen() {
             <Text style={styles.cell}>{item.player_name}</Text>
             <Text style={styles.cell}>{item.user_choice}</Text>
             <Text style={styles.cell}>{item.computer_choice}</Text>
-            <Text style={[styles.cell, {}]}>{item.result}</Text>
+            <Text style={[styles.cell, { textAlign: "right" }]}>
+              {item.result}
+            </Text>
           </View>
         )}
       ></FlatList>
@@ -38,9 +40,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
+    padding: 2,
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
   },
 
