@@ -24,59 +24,63 @@ export default function GameScreen() {
 
   return (
     <LinearGradient
-      colors={["#636364ff", "#6c6e70ff"]} // 🔵 blå gradient
+      colors={["#2e2e2e", "#a0a0a0"]}
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
       style={styles.container}
     >
-      <View style={styles.container}>
+      <View style={styles.titlebox}>
+        <View style={styles.scorebox}>
+          <Text style={styles.title}>Computer</Text>
+          <Text style={styles.title}>{computerScore}</Text>
+        </View>
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            width: "100%",
+            flex: 1,
+            margin: 10,
+            alignItems: "center",
+            backgroundColor: "transparent",
           }}
         >
-          <View style={{ flex: 1, margin: 10, alignItems: "center" }}>
-            <Text style={styles.title}>Computer</Text>
-            <Text style={styles.title}>{computerScore}</Text>
-          </View>
-          <View style={{ flex: 1, margin: 10, alignItems: "center" }}>
-            <Text style={styles.title}>Player</Text>
-            <Text style={styles.title}>{playerScore}</Text>
-          </View>
+          <Text style={styles.title}>Player</Text>
+          <Text style={styles.title}>{playerScore}</Text>
         </View>
-        <TextInput
-          style={styles.input}
-          placeholder={"Ang Namn"}
-          placeholderTextColor="black"
-          value={playerName}
-          onChangeText={setPlayerName}
-        />
-        <View style={styles.pressAbleView}>
-          <TouchableOpacity
-            onPress={() => {
-              playClick();
-              PlayRound("Sten");
-            }}
-          >
-            <Image source={images.Rock} style={styles.images} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              playClick();
-              PlayRound("Sax");
-            }}
-          >
-            <Image source={images.Scissor} style={styles.images} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              playClick();
-              PlayRound("Påse");
-            }}
-          >
-            <Image source={images.Bag} style={styles.images} />
-          </TouchableOpacity>
-        </View>
+      </View>
+      <TextInput
+        style={styles.input}
+        placeholder={"Ang Namn"}
+        placeholderTextColor="black"
+        value={playerName}
+        onChangeText={setPlayerName}
+      />
+      <View style={styles.pressAbleView}>
+        <TouchableOpacity
+          style={styles.choiceButton}
+          onPress={() => {
+            playClick();
+            PlayRound("Sten");
+          }}
+        >
+          <Image source={images.Rock} style={styles.images} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.choiceButton}
+          onPress={() => {
+            playClick();
+            PlayRound("Sax");
+          }}
+        >
+          <Image source={images.Scissor} style={styles.images} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.choiceButton}
+          onPress={() => {
+            playClick();
+            PlayRound("Påse");
+          }}
+        >
+          <Image source={images.Bag} style={styles.images} />
+        </TouchableOpacity>
       </View>
     </LinearGradient>
   );
@@ -108,6 +112,7 @@ const styles = StyleSheet.create({
   },
   pressAbleView: {
     flexDirection: "row",
+    backgroundColor: "transparent",
   },
   input: {
     backgroundColor: "lightgrey",
@@ -115,5 +120,25 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
     borderRadius: 15,
+  },
+  scorebox: {
+    flex: 1,
+    margin: 10,
+    alignItems: "center",
+    backgroundColor: "transparent",
+  },
+  titlebox: {
+    flexDirection: "row",
+    justifyContent: "center",
+    width: "100%",
+    backgroundColor: "transparent",
+  },
+  choiceButton: {
+    margin: 10,
+    borderRadius: 15,
+    backgroundColor: "#5f5f5fff",
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
 });
