@@ -19,7 +19,7 @@ export interface ResultBestOfThreeRow{
 
 export const historyAtom = atom<ResultRow[]>([]);
 export const historyAtomBestOfThree = atom<ResultBestOfThreeRow[]>([]);
-export const playerNameAtom = atom<string>("");
+export const playerNameAtom = atom<string>("NoName");
 
 
 
