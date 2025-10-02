@@ -31,3 +31,19 @@ export async function dbServiceInsertSingleGame(
     },
   ]);
 }
+
+export async function dbServiceSelectBestOf() {
+  return await supabase
+    .from("bestofthree")
+    .select("id, player_score, computer_score, winner, player_name, created_at")
+    .order("created_at", { ascending: false })
+    .limit(25);
+}
+
+export async function dbServiceSelectSingleWinner() {
+  return await supabase
+    .from("results")
+    .select("id, player_name, user_choice, computer_choice, result, created_at")
+    .order("created_at", { ascending: false })
+    .limit(25);
+}
