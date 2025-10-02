@@ -3,7 +3,6 @@ import { playerNameAtom } from "@/atoms/historyAtoms";
 import { dbServiceInsertBestOf } from "@/services/dbServices";
 import * as Haptics from "expo-haptics";
 import { useAtom } from "jotai";
-import { useEffect } from "react";
 
 export function useDecideWinner() {
   const [playerScore, setPlayerScore] = useAtom(playerScoreAtom);
@@ -22,54 +21,39 @@ export function useDecideWinner() {
       (userC === "Påse" && computerC === "Sten")
     ) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      setPlayerScore((p) => p + 1);
+
+      const newPlayerScore = playerScore + 1;
+      setPlayerScore(newPlayerScore);
+
+      if (newPlayerScore === 2) {
+        dbServiceInsertBestOf(
+          newPlayerScore,
+          computerScore,
+          "player",
+          playerName
+        );
+        setPlayerScore(0);
+        setComputerScore(0);
+      }
       return "WIN";
     }
 
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-    setComputerScore((p) => p + 1);
+    const newComputerScore = computerScore + 1;
+    setComputerScore(newComputerScore);
+
+    if (newComputerScore === 2) {
+      dbServiceInsertBestOf(
+        playerScore,
+        newComputerScore,
+        "computer",
+        playerName
+      );
+      setPlayerScore(0);
+      setComputerScore(0);
+    }
 
     return "LOOSE";
   }
-  useEffect(() => {
-    if (playerScore === 2) {
-      dbServiceInsertBestOf(playerScore, computerScore, "player", playerName)
-        .then(({ error }) => {
-          if (error) {
-            console.error("Insert error:", error.message);
-          } else {
-            console.log("Result saved");
-            setPlayerScore(0);
-            setComputerScore(0);
-          }
-        })
-        .catch((err) => {
-          console.error("Unexpected error:", err);
-        });
-    }
-
-    if (computerScore === 2) {
-      dbServiceInsertBestOf(playerScore, computerScore, "computer", playerName)
-        .then(({ error }) => {
-          if (error) {
-            console.error("Insert error:", error.message);
-          } else {
-            console.log("Result saved");
-            setPlayerScore(0);
-            setComputerScore(0);
-          }
-        })
-        .catch((err) => {
-          console.error("Unexpected error:", err);
-        });
-    }
-  }, [
-    playerScore,
-    computerScore,
-    playerName,
-    setPlayerScore,
-    setComputerScore,
-  ]);
-
   return { decideWinner };
 }
