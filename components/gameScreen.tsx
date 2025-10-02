@@ -15,14 +15,8 @@ const images = {
   Bag: require("../assets/images/bag.png"),
 };
 
-const imagesSvenska = {
-  Sten: require("../assets/images/rock.png"),
-  Sax: require("../assets/images/scissor.png"),
-  Påse: require("../assets/images/bag.png"),
-};
-
 export default function GameScreen() {
-  const { userChoice, displayChoice, result, PlayRound } = useRockPaper();
+  const { PlayRound } = useRockPaper();
   const [playerName, setPlayerName] = useAtom(playerNameAtom);
   const [playerScore] = useAtom(playerScoreAtom);
   const [computerScore] = useAtom(computerScoreAtom);
@@ -103,10 +97,6 @@ const styles = StyleSheet.create({
     textShadowColor: "rgba(0,0,0,0.8)",
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 4,
-    marginBottom: 10,
-  },
-  info: {
-    fontSize: 24,
     marginBottom: 10,
   },
   images: {
