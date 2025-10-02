@@ -2,10 +2,10 @@ import clickLooseSound from "@/assets/sounds/clickLooseSound.mp3";
 import clickWinSound from "@/assets/sounds/clickWinSound.mp3";
 import drawSound from "@/assets/sounds/drawSound.mp3";
 import {
-    computerChoiceAtom,
-    displayChoiceAtom,
-    resultAtom,
-    userChoiceAtom,
+  computerChoiceAtom,
+  displayChoiceAtom,
+  resultAtom,
+  userChoiceAtom,
 } from "@/atoms/gameAtoms";
 import { playerNameAtom } from "@/atoms/historyAtoms";
 import { dbServiceInsertSingleGame } from "@/services/dbServices";
@@ -68,7 +68,7 @@ export function useRockPaper() {
         setComputerChoice(null);
         setDisplayChoice(null);
         SetResult(null);
-      }, 6000);
+      }, 4000);
     }, 3000);
   }
   return { userChoice, computerChoice, result, displayChoice, PlayRound };

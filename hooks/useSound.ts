@@ -17,7 +17,7 @@ export function useSound(soundFile: any) {
     return () => {
       mounted = false;
       if (sound) {
-        sound.unloadAsync(); // städa när komponenten unmountas
+        sound.unloadAsync();
       }
     };
   }, []);
@@ -27,7 +27,7 @@ export function useSound(soundFile: any) {
       await sound.replayAsync();
       setTimeout(() => {
       sound.stopAsync();
-    }, 5000); // spelar från början varje gång
+    }, 5000);
     }
   }
 
