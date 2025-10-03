@@ -20,7 +20,7 @@ export default function GameScreen() {
   const [playerName, setPlayerName] = useAtom(playerNameAtom);
   const [playerScore] = useAtom(playerScoreAtom);
   const [computerScore] = useAtom(computerScoreAtom);
-  const playClick = useSound(clickSound);
+  const playClickSound = useSound(clickSound);
 
   return (
     <LinearGradient
@@ -34,14 +34,7 @@ export default function GameScreen() {
           <Text style={styles.title}>Computer</Text>
           <Text style={styles.title}>{computerScore}</Text>
         </View>
-        <View
-          style={{
-            flex: 1,
-            margin: 10,
-            alignItems: "center",
-            backgroundColor: "transparent",
-          }}
-        >
+        <View style={styles.titlebox}>
           <Text style={styles.title}>Player</Text>
           <Text style={styles.title}>{playerScore}</Text>
         </View>
@@ -57,7 +50,7 @@ export default function GameScreen() {
         <TouchableOpacity
           style={styles.choiceButton}
           onPress={() => {
-            playClick();
+            playClickSound();
             PlayRound("Sten");
           }}
         >
@@ -66,7 +59,7 @@ export default function GameScreen() {
         <TouchableOpacity
           style={styles.choiceButton}
           onPress={() => {
-            playClick();
+            playClickSound();
             PlayRound("Sax");
           }}
         >
@@ -75,7 +68,7 @@ export default function GameScreen() {
         <TouchableOpacity
           style={styles.choiceButton}
           onPress={() => {
-            playClick();
+            playClickSound();
             PlayRound("Påse");
           }}
         >
